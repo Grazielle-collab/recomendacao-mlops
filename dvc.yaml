@@ -1,0 +1,10 @@
+﻿stages:
+  preprocess:
+    cmd: python scripts/preprocess.py
+    deps:
+      - data/raw/ratings.csv
+      - scripts/preprocess.py
+    outs:
+      - data/processed/ratings_clean.csv
+    metrics:
+      - metrics/stats.json
