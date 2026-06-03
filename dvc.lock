@@ -1,0 +1,22 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python scripts/preprocess.py
+    deps:
+    - path: data/raw/ratings.csv
+      hash: md5
+      md5: 26763292aa76168d3e41e33bfc594e7d
+      size: 2079207
+    - path: scripts/preprocess.py
+      hash: md5
+      md5: 50818ef21581bc24189a7ca3cd6b803a
+      size: 820
+    outs:
+    - path: data/processed/ratings_clean.csv
+      hash: md5
+      md5: 26763292aa76168d3e41e33bfc594e7d
+      size: 2079207
+    - path: metrics/stats.json
+      hash: md5
+      md5: 0d100b48c6fa64a72839352c4d261c31
+      size: 133
