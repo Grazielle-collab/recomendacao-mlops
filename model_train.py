@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
@@ -28,7 +28,7 @@ class UserMeanBaseline:
 
 def train_model():
     print("Carregando dados...")
-    df = pd.read_csv("data/ratings.csv")
+    df = pd.read_csv("data/raw/ratings.csv")
     
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)
     print(f"Treino: {len(train_df)} amostras")
