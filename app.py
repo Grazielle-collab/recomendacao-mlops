@@ -44,24 +44,40 @@ async def lifespan(app: FastAPI):
     
     print("Inicializando API...")
     
+    # >>> DEBUG: Mostrar diretório atual
+    print(f">>> Diretório atual: {os.getcwd()}")
+    
+    # >>> DEBUG: Listar arquivos na pasta models
+    if os.path.exists("models"):
+        print(f">>> Arquivos em models/: {os.listdir('models')}")
+    else:
+        print(">>> Pasta models/ NÃO existe!")
+    
     model_path = "models/baseline.pkl"
+    print(f">>> Procurando modelo em: {model_path}")
+    print(f">>> Arquivo existe? {os.path.exists(model_path)}")
+    
     if os.path.exists(model_path):
         with open(model_path, "rb") as f:
             model = pickle.load(f)
-        print("Modelo carregado com sucesso")
+        print("✅ Modelo carregado com sucesso")
     else:
-        print("Modelo nao encontrado")
+        print("❌ Modelo nao encontrado")
     
+    # >>> DEBUG: Verificar dados
     ratings_path = "data/processed/ratings_clean.csv"
     if not os.path.exists(ratings_path):
         ratings_path = "data/raw/ratings.csv"
     
+    print(f">>> Procurando dados em: {ratings_path}")
+    print(f">>> Arquivo existe? {os.path.exists(ratings_path)}")
+    
     if os.path.exists(ratings_path):
         ratings = pd.read_csv(ratings_path)
         item_popularity = ratings.groupby("item_id")["rating"].mean().sort_values(ascending=False)
-        print(f"{len(item_popularity)} itens carregados")
+        print(f"✅ {len(item_popularity)} itens carregados")
     else:
-        print("Dados nao encontrados")
+        print("❌ Dados nao encontrados")
     
     yield
     
