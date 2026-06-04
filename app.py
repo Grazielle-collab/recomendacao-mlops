@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from typing import Optional, List
 import os
+import sys
 
 # Definir a classe do modelo
 class UserMeanBaseline:
@@ -44,14 +45,12 @@ async def lifespan(app: FastAPI):
     
     print("Inicializando API...")
     
-    # >>> DEBUG: Mostrar diretório atual
-    print(f">>> Diretório atual: {os.getcwd()}")
+    print(f">>> Diretorio atual: {os.getcwd()}")
     
-    # >>> DEBUG: Listar arquivos na pasta models
     if os.path.exists("models"):
         print(f">>> Arquivos em models/: {os.listdir('models')}")
     else:
-        print(">>> Pasta models/ NÃO existe!")
+        print(">>> Pasta models/ NAO existe!")
     
     model_path = "models/baseline.pkl"
     print(f">>> Procurando modelo em: {model_path}")
@@ -59,12 +58,17 @@ async def lifespan(app: FastAPI):
     
     if os.path.exists(model_path):
         with open(model_path, "rb") as f:
-            model = pickle.load(f)
+            model_data = pickle.load(f)
+        
+        # Recriar o modelo a partir do dicionario
+        model = UserMeanBaseline()
+        model.user_means = model_data['user_means']
+        model.global_mean = model_data['global_mean']
         print("✅ Modelo carregado com sucesso")
     else:
         print("❌ Modelo nao encontrado")
     
-    # >>> DEBUG: Verificar dados
+    # Verificar dados
     ratings_path = "data/processed/ratings_clean.csv"
     if not os.path.exists(ratings_path):
         ratings_path = "data/raw/ratings.csv"
